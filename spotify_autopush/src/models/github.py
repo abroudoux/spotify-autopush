@@ -4,7 +4,6 @@ import requests
 import os
 import json
 from typing import Any, Dict
-
 class Github:
     """
     A class to interact with the Github API for managing user profile information and issues.
