@@ -20,18 +20,18 @@ def app():
     if not redirect_uri:
         print("Veuillez définir la variable d'environnement SPOTIPY_REDIRECT_URI.")
 
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope="user-read-recently-played"))
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope="user-library-read"))
 
-    results = sp.current_user_recently_played(limit=1)
+    results = sp.current_user_saved_albums(limit=1)
 
     if results and 'items' in results and len(results['items']) > 0:
-        most_recent_track = results['items'][0]['track']
+        recently_saved_album = results['items'][0]['album']
 
-        if 'name' in most_recent_track:
-            track_name = most_recent_track['name']
-            print(f"Nom du morceau le plus récent : {track_name}")
+        if 'name' in recently_saved_album:
+            album_name = recently_saved_album['name']
+            print(f"Nom du dernier album sauvegardé : {album_name}")
         else:
-            print("La propriété 'name' n'est pas présente dans les données du morceau.")
+            print("La propriété 'name' n'est pas présente dans les données de l'album.")
     else:
-        print("Aucun morceau récemment joué trouvé.")
+        print("Aucun album récemment joué trouvé.")
 
