@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "spotify_autopush"
+version = "0.0.0"
+description = "A simple CLI to update github bio and status."
+authors = ["Arthur Broudoux <arthur.broudoux@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+auto_push = "spotify_autopush.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+spotipy = "^2.19.0"
+dotenv = "*"
+
+# [tool.poetry.dependencies]
+# python = "^3.8"
+# typer = {extras = ["all"], version = "^0.9.0"}
+# python-crontab = "^3.0.0"
+# python-dotenv = "^1.0.0"
+# requests = "^2.31.0"
+# plyer = "^2.1.0"
+# pyobjus = "^1.2.3"
+
+
+# [build-system]
+# requires = ["poetry-core"]
+# build-backend = "poetry.core.masonry.api"
+python-dotenv = "^1.0.0"
