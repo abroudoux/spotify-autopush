@@ -44,25 +44,31 @@ class Spotify:
 
         results = sp.current_user_saved_albums(limit=1)
 
-        if results and 'items' in results and len(results['items']) > 0:
-            recently_saved_album = results['items'][0]['album']
-
-            if 'name' in recently_saved_album:
-                album_name = recently_saved_album['name']
-                album_artist = recently_saved_album['artists']
-                artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else None
-
-                if artist_name:
-                    print(f"Last played album: {album_name} by {artist_name}")
-                else:
-                    print(f"Last played album: {album_name}")
-            else:
-                print("The property 'name' was not found in the recently played album.")
-        else:
+        if results and 'items' not in results and len(results['items']) == 0:
             print("Any recently played albums were not found.")
 
-        return {
-            "name": "test",
-            "artist": "test",
-            "cover_art_url": "test"
+        recently_saved_album = results['items'][0]['album']
+
+        if 'name' not in recently_saved_album:
+            print("The property 'name' was not found in the recently played album.")
+
+        album_name = recently_saved_album['name']
+        album_artist = recently_saved_album['artists']
+        album_cover_art = recently_saved_album['images']
+        album_cover_url = album_cover_art[0]['url'] if album_cover_art and len(album_cover_art) > 0 else None
+
+        if not album_cover_url:
+            print("No album cover URL found.")
+
+        artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else None
+
+        if  not artist_name:
+            print("The property 'name' was not found in the recently played album.")
+
+        album_response: Dict[str, Any] = {
+            "album_name": album_name,
+            "artist_name": artist_name,
+            "album_cover_url": album_cover_url
         }
+
+        return album_response
