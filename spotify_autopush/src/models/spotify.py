@@ -12,9 +12,13 @@ class Spotify:
 
     Attributes:
     -----------
+    spotify_client_id: str : The Spotify client ID.
+    spotify_client_secret: str : The Spotify client secret.
+    spotify_redirect_uri: str : The Spotify redirect URI.
 
     Methods:
     --------
+    get_current_album() -> Dict[str, Any]: Fetches the currently playing album from the Spotify API.
     """
 
     def __init__(self) -> None:
@@ -45,11 +49,17 @@ class Spotify:
 
             if 'name' in recently_saved_album:
                 album_name = recently_saved_album['name']
-                print(f"Nom du dernier album sauvegardé : {album_name}")
+                album_artist = recently_saved_album['artists']
+                artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else None
+
+                if artist_name:
+                    print(f"Last played album: {album_name} by {artist_name}")
+                else:
+                    print(f"Last played album: {album_name}")
             else:
-                print("La propriété 'name' n'est pas présente dans les données de l'album.")
+                print("The property 'name' was not found in the recently played album.")
         else:
-            print("Aucun album récemment joué trouvé.")
+            print("Any recently played albums were not found.")
 
         return {
             "name": "test",
