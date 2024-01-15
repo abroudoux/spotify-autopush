@@ -42,15 +42,15 @@ class Github:
             'Content-Type': 'application/json'
         }
 
-    def update_bio(self, content: str) -> Dict[str, Any]:
+    def update_readme(self, album_response: dict) -> Dict[str, Any]:
         """
-        Updates the biography of the Github user's profile.
+        Updates the README of the Github user's profile.
 
-        Sends a PATCH request to the Github API to update the biography section of the user's profile.
+        Sends a PUT request to the Github API to update the README file in the user's profile repository.
 
         Parameters:
         -----------
-        content (str): The new biography content to be set.
+        album_response (dict): The album response object from Spotify.
 
         Returns:
         --------
@@ -60,9 +60,16 @@ class Github:
         -------
         requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
-        headers = {'Content-Type': 'application/json'}
-        data = {'bio': content}
-        response = requests.patch(url=f"{self.base_url}/user",
-                                  auth=self.auth, data=json.dumps(data), headers=headers)
+        headers = {
+            'Authorization': f'bearer {os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")}',
+            'Content-Type': 'application/json'
+        }
+        data = {
+            'message': 'Update README',
+            'content': album_response['content'],
+            'sha': album_response['sha']
+        }
+        response = requests.put(url=f"{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md",
+                                auth=self.auth, data=json.dumps(data), headers=headers)
         response.raise_for_status()
         return response.json()

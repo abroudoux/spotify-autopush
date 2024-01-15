@@ -56,19 +56,24 @@ class Spotify:
         album_artist = recently_saved_album['artists']
         album_cover_art = recently_saved_album['images']
         album_cover_url = album_cover_art[0]['url'] if album_cover_art and len(album_cover_art) > 0 else None
+        album_url = recently_saved_album['external_urls']['spotify'] if 'external_urls' in recently_saved_album else None
+
+        if not album_url:
+            print("No album URL found.")
 
         if not album_cover_url:
             print("No album cover URL found.")
 
         artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else None
 
-        if  not artist_name:
+        if not artist_name:
             print("The property 'name' was not found in the recently played album.")
 
         album_response: Dict[str, Any] = {
             "album_name": album_name,
             "artist_name": artist_name,
-            "album_cover_url": album_cover_url
+            "album_cover_url": album_cover_url,
+            "album_url": album_url
         }
 
         return album_response
