@@ -1,5 +1,5 @@
 import os
-import requests
+import json
 from typing import Dict, Any
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -38,7 +38,7 @@ class Spotify:
 
         Returns:
         --------
-        Dict[str, Any]: A dictionary containing the album's name, artist, and cover art URL.
+        str: A json format containing the album's name, artist, and cover art URL.
         """
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=self.spotify_client_id, client_secret=self.spotify_client_secret, redirect_uri=self.spotify_redirect_uri, scope="user-library-read"))
 
@@ -69,11 +69,11 @@ class Spotify:
         if not artist_name:
             print("The property 'name' was not found in the recently played album.")
 
-        album_response: Dict[str, Any] = {
+        album_data: Dict[str, Any] = {
             "album_name": album_name,
             "artist_name": artist_name,
             "album_cover_url": album_cover_url,
             "album_url": album_url
         }
 
-        return album_response
+        return (album_data)

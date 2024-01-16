@@ -1,12 +1,12 @@
-import typer
-
 from spotify_autopush.src.models.spotify import Spotify
-from spotify_autopush.src.commands.cmd_checkup import checkup
-
-app = typer.Typer(rich_help_panel="rich")
+from spotify_autopush.src.models.env_loader import EnvLoader
 
 def app():
-    if checkup():
+    env_loader = EnvLoader()
+
+    if env_loader.check():
         spotify = Spotify()
-        album_response = spotify.get_current_album()
-        print(album_response)
+        album_data = spotify.get_current_album()
+        print(album_data)
+    else:
+        print("Checkup failed. Please check your environment variables.")

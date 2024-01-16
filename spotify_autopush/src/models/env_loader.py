@@ -1,57 +1,48 @@
+from rich import print
 import os
 from dotenv import load_dotenv
-from rich import print
-
 
 class EnvLoader:
     """
-    A class dedicated to loading and validating environment variables from a .env file.
+    A class used to check if the environment variables are set correctly.
 
-    This class is respoTIFY_nsible for ensuring that all necessary environment variables are correctly loaded into the application's environment. It provides functionality to load variables from a .env file and validate their presence.
+    This class encapsulates methods for checking if the environment variables are set correctly. It handles authentication and provides a simplified interface for making specific Github API calls.
+
+    Attributes:
+    -----------
 
     Methods:
     --------
-    load_env():
-        Loads environment variables from a .env file and validates them.
-
-    validate(env):
-        Validates the necessary environment variables to ensure they are present.
+    checkup(): Prints the current environment variable values set in the .env file.
     """
 
-    def load_env(self) -> None:
+    def check(self):
         """
-        Loads environment variables from a .env file and validates their presence.
+        Checks if the environment variables are set correctly.
+        """
+        return self.__run_checkup()
 
-        This method uses the 'dotenv' library to load environment variables from a .env file located in the application's root directory. After loading the variables, it calls the 'validate' method to ensure all required variables are present.
-
-        If a required environment variable is missing, it prints an error message using the 'rich' library for better formatting.
-
-        Raises:
-        -------
-        ValueError: If any required environment variables are missing.
+    def __run_checkup(self):
+        """
+        Prints the current environment variable values set in the .env file.
+        Check if the environment variables are set correctly.
         """
         load_dotenv()
-        try:
-            self.validate(os.environ)
-        except ValueError as e:
-            print(f"[bold red]Error: {e}[/bold red]")
 
-    def validate(self, env: os._Environ[str]) -> None:
-        """
-        Validates the presence of necessary environment variables.
+        client_id = os.getenv("SPOTIFY_CLIENT_ID")
+        client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
+        redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI")
 
-        This method checks for the existence of all required environment variables. The list of required variables is defined within the method. If any of these variables are missing, a ValueError is raised with a descriptive message.
+        if not client_id:
+            print("Please define the environment variable SPOTIPY_CLIENT_ID.")
+            return False
 
-        Parameters:
-        -----------
-        env (os._Environ[str]): The environment variables dictionary to validate.
+        if not client_secret:
+            print("Please define the environment variable SPOTIPY_CLIENT_SECRET.")
+            return False
 
-        Raises:
-        -------
-        ValueError: If any required environment variables are not found in 'env'.
-        """
-        required_keys = ["GITHUB_PERSONAL_ACCESS", "SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET", "SPOTIFY_REDIRECT_URI"]
-        for key in required_keys:
-            if not env.get(key):
-                raise ValueError(
-                    f"Required environment variable '{key}' is missing. Please set it in your .env file.")
+        if not redirect_uri:
+            print("Please define the environment variable SPOTIPY_REDIRECT_URI.")
+            return False
+
+        return True
