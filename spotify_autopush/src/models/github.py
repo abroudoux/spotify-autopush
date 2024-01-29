@@ -24,13 +24,12 @@ class Github:
     """
 
     def __init__(self) -> None:
-        load_dotenv()
-
         """
         Initializes the Github object with authentication details.
 
         Sets up the authentication credentials for accessing the Github API using a personal access token stored in environment variables. Configures the base URLs for standard and GraphQL API endpoints.
         """
+        load_dotenv()
         self.username: str = os.getenv("GITHUB_USERNAME")
         self.base_url: str = "https://api.github.com"
         self.base_graphql_url: str = "https://api.github.com/graphql"
@@ -41,6 +40,8 @@ class Github:
             'Authorization': f'bearer {os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")}',
             'Content-Type': 'application/json'
         }
+        self.api_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+
 
     def update_readme(self, album_response: dict) -> Dict[str, Any]:
         """
@@ -73,3 +74,56 @@ class Github:
                                 auth=self.auth, data=json.dumps(data), headers=headers)
         response.raise_for_status()
         return response.json()
+
+    def __setup_headers(self):
+        """
+        Gets the access token for the Github API.
+
+        Returns:
+        --------
+        dict: The access token for the Github API.
+
+        Raises:
+        -------
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        """
+        headers = {'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token ' + self.api_token}
+        return headers
+
+    def get_bio(self,context):
+        """
+        Gets the biography of the Github user's profile.
+
+        Sends a GET request to the Github API to retrieve the biography of the user's profile.
+
+        Parameters:
+        -----------
+        context (str): The context to print before the biography.
+
+        Raises:
+        -------
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        """
+        headers = self.__setup_headers()
+        r = requests.get('https://api.github.com/user', headers=headers)
+        json_data = r.json()
+        print(context + json_data["bio"])
+
+    def update_bio(self):
+        """
+        Updates the biography of the Github user's profile.
+
+        Sends a PATCH request to the Github API to update the biography of the user's profile.
+
+        Raises:
+        -------
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        """
+        headers = self.__setup_headers()
+        self.get_bio("Old bio: ")
+        new_bio = input("Enter new bio: ")
+        bio_patch = requests.patch('https://api.github.com/user', json = {'bio': new_bio}, headers = headers)
+        print ("Status: ", bio_patch.status_code)
+        self.get_bio("New bio: ")
+
+
