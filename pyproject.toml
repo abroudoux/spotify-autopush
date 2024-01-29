@@ -6,7 +6,7 @@ authors = ["Arthur Broudoux <arthur.broudoux@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
-auto_push = "spotify_autopush.main:app"
+spotify_autopush = "spotify_autopush.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.12"

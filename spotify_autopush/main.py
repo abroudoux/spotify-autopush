@@ -1,31 +1,31 @@
 from spotify_autopush.src.models.spotify import Spotify
 from spotify_autopush.src.models.env_loader import EnvLoader
 
+import json
+import requests
+from getpass import getpass
+
+
+api_token = getpass('API Token: ')
+h = {'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token ' + api_token}
+
 def app():
-    env_loader = EnvLoader()
+    # env_loader = EnvLoader()
 
-    if env_loader.check():
-        spotify = Spotify()
-        album_data = spotify.get_current_album()
-        print(album_data)
-        # update_readme_template(album_data)
-    else:
-        print("Checkup failed. Please check your environment variables.")
+    # if env_loader.check():
+    #     spotify = Spotify()
+    #     album_data = spotify.get_current_album()
+    #     print(album_data)
+    # else:
+    #     print("Checkup failed. Please check your environment variables.")
+    get_bio("Old bio: ")
+    new_bio = input("Enter new bio: ")
+    bio_patch = requests.patch('https://api.github.com/user', json = {'bio': new_bio}, headers = h)
+    print ("Status: ", bio_patch.status_code)
+    get_bio("New bio: ")
 
 
-# def update_readme_template(album_data):
-
-#     with open("profile.md", "r", encoding="utf-8") as file:
-#         template_content = file.read()
-
-#     updated_template = template_content.replace("${album_name}", album_data['album_name'])
-#     updated_template = updated_template.replace("${album_artist}", album_data['artist_name'])
-#     updated_template = updated_template.replace("${album_cover_url}", album_data['album_cover_url'])
-#     updated_template = updated_template.replace("${album_url}", album_data['album_url'])
-
-#     print("Contenu du modèle après mise à jour :")
-#     print(updated_template)
-
-#     with open("profile.md", "w", encoding="utf-8") as file:
-#         file.write(updated_template)
-
+def get_bio(context):
+    r = requests.get('https://api.github.com/user', headers=h)
+    json_data = r.json()
+    print(context + json_data["bio"])

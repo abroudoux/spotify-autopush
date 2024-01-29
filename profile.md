@@ -8,12 +8,12 @@
 
 🌍 Discover my [Portfolio](https://abroudoux-portfolio.vercel.app/)
 
-
 ## Technos & Tools
 
 [![My Skills](https://skillicons.dev/icons?i=js,typescript,scss,react,tailwind,nestjs,git,bash,nodejs,mongodb,rust,python,postman,docker,postgres,vercel&perline=8)](https://skillicons.dev)
 
 ## Last played album
+
 <a href=https://open.spotify.com/album/5rotTIzASSa2IDU9uQA0nQ style="text-decoration: none; color: #CCCCCC">
     <div style="border: 1px solid grey; border-radius: 10px; padding: 5px 10px; width: 50%">
         <p style="margin-bottom: 0; font-size: 24px; font-weight: 600">cero - e o<p>
