@@ -14,12 +14,10 @@
 [![My Skills](https://skillicons.dev/icons?i=js,typescript,scss,react,tailwind,nestjs,git,bash,nodejs,mongodb,rust,python,postman,docker,postgres,vercel&perline=8)](https://skillicons.dev)
 
 ## Last played album
-<a href=${album_url} style="text-decoration: none; color: #CCCCCC">
+<a href=https://open.spotify.com/album/5rotTIzASSa2IDU9uQA0nQ style="text-decoration: none; color: #CCCCCC">
     <div style="border: 1px solid grey; border-radius: 10px; padding: 5px 10px; width: 50%">
-        <p style="margin-bottom: 0; font-size: 24px; font-weight: 600">${album_artist} - ${album_name}<p>
+        <p style="margin-bottom: 0; font-size: 24px; font-weight: 600">cero - e o<p>
         <br>
-        <img src=${album_cover_url} style="border-radius: 6px; width: 100%; height: auto">
+        <img src=https://i.scdn.co/image/ab67616d0000b27361179675298a14b172b24653 style="border-radius: 6px; width: 100%; height: auto">
     </div>
 </a>
-
-<br>
