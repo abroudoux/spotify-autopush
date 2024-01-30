@@ -8,10 +8,10 @@ def app():
 
     if env_loader.check():
         spotify = Spotify()
-        # last_played_album = spotify.print_last_played_album()
+        last_played_album = spotify.print_last_played_album()
 
         github = Github()
         # github.update_bio(last_played_album)
-        github.get_readme()
+        github.udpate_readme(last_played_album)
     else:
         print("Checkup failed. Please check your environment variables.")

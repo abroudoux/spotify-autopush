@@ -1,5 +1,4 @@
 import os
-import json
 from typing import Dict, Any
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -26,7 +25,6 @@ class Spotify:
         """
         Initializes the Spotify instance.
         """
-
         self.spotify_client_id = os.getenv("SPOTIFY_CLIENT_ID")
         self.spotify_client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
         self.spotify_redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI")
@@ -83,15 +81,14 @@ class Spotify:
         """
         Prints the last played album.
 
-        This method prints the last played album in the format: "Artist Name - Album Name - Album URL - Album Cover URL".
+        This method prints the last played album in the format: "Artist Name - Album Name".
 
         Returns:
         --------
-        str: A string containing the last played album in the format: "Artist Name - Album Name - Album URL - Album Cover URL".
+        str: A string containing the last played album in the format: "Artist Name - Album Name".
         """
         album_data = self.__get_current_album()
         artist_name = album_data['artist_name']
         album_name = album_data['album_name']
         last_played_album = f"{artist_name} - {album_name}"
-        print(last_played_album)
         return last_played_album
