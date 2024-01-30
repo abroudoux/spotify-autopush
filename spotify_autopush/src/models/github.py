@@ -75,21 +75,6 @@ class Github:
         response.raise_for_status()
         return response.json()
 
-    def __setup_headers(self):
-        """
-        Gets the access token for the Github API.
-
-        Returns:
-        --------
-        dict: The access token for the Github API.
-
-        Raises:
-        -------
-        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
-        """
-        headers = {'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token ' + self.api_token}
-        return headers
-
     def get_bio(self,context):
         """
         Gets the biography of the Github user's profile.
@@ -104,12 +89,11 @@ class Github:
         -------
         requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
-        headers = self.__setup_headers()
-        r = requests.get('https://api.github.com/user', headers=headers)
+        r = requests.get('https://api.github.com/user', headers=self.headers)
         json_data = r.json()
         print(context + json_data["bio"])
 
-    def update_bio(self):
+    def update_bio(self, new_bio: str):
         """
         Updates the biography of the Github user's profile.
 
@@ -119,11 +103,9 @@ class Github:
         -------
         requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
-        headers = self.__setup_headers()
         self.get_bio("Old bio: ")
-        new_bio = input("Enter new bio: ")
-        bio_patch = requests.patch('https://api.github.com/user', json = {'bio': new_bio}, headers = headers)
-        print ("Status: ", bio_patch.status_code)
+        bio_patch = requests.patch('https://api.github.com/user', json = {'bio': "Last album played : " + new_bio}, headers=self.headers)
+        print ("Status:", bio_patch.status_code)
         self.get_bio("New bio: ")
 
 

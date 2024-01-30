@@ -19,6 +19,7 @@ class Spotify:
     Methods:
     --------
     get_current_album() -> Dict[str, Any]: Fetches the currently playing album from the Spotify API.
+    print_last_played_album() -> str: Prints the last played album.
     """
 
     def __init__(self) -> None:
@@ -30,7 +31,7 @@ class Spotify:
         self.spotify_client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
         self.spotify_redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI")
 
-    def get_current_album(self) -> Dict[str, Any]:
+    def __get_current_album(self) -> Dict[str, Any]:
         """
         Fetches the currently playing album from the Spotify API.
 
@@ -76,4 +77,21 @@ class Spotify:
             "album_url": album_url
         }
 
-        return (album_data)
+        return album_data
+
+    def print_last_played_album(self):
+        """
+        Prints the last played album.
+
+        This method prints the last played album in the format: "Artist Name - Album Name - Album URL - Album Cover URL".
+
+        Returns:
+        --------
+        str: A string containing the last played album in the format: "Artist Name - Album Name - Album URL - Album Cover URL".
+        """
+        album_data = self.__get_current_album()
+        artist_name = album_data['artist_name']
+        album_name = album_data['album_name']
+        last_played_album = f"{artist_name} - {album_name}"
+        print(last_played_album)
+        return last_played_album
