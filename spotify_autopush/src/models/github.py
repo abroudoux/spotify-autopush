@@ -1,8 +1,8 @@
+import base64
 from dotenv import load_dotenv
 from requests.auth import HTTPBasicAuth
 import requests
 import os
-import json
 from typing import Any, Dict
 class Github:
     """
@@ -31,6 +31,7 @@ class Github:
         """
         load_dotenv()
         self.username: str = os.getenv("GITHUB_USERNAME")
+        self.repo: str = self.username
         self.base_url: str = "https://api.github.com"
         self.base_graphql_url: str = "https://api.github.com/graphql"
         self.auth: HTTPBasicAuth = HTTPBasicAuth(
@@ -43,37 +44,52 @@ class Github:
         self.api_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
 
 
-    def update_readme(self, album_response: dict) -> Dict[str, Any]:
+    # def update_readme(self, album_response: dict) -> Dict[str, Any]:
+    #     """
+    #     Updates the README of the Github user's profile.
+
+    #     Sends a PUT request to the Github API to update the README file in the user's profile repository.
+
+    #     Parameters:
+    #     -----------
+    #     album_response (dict): The album response object from Spotify.
+
+    #     Returns:
+    #     --------
+    #     Dict[str, Any]: The JSON response from the Github API.
+
+    #     Raises:
+    #     -------
+    #     requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+    #     """
+    #     headers = {
+    #         'Authorization': f'bearer {os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")}',
+    #         'Content-Type': 'application/json'
+    #     }
+    #     data = {
+    #         'message': 'Update README',
+    #         'content': album_response['content'],
+    #         'sha': album_response['sha']
+    #     }
+    #     response = requests.put(url=f"{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md",
+    #                             auth=self.auth, data=json.dumps(data), headers=headers)
+    #     response.raise_for_status()
+    #     return response.json()
+
+    def get_readme(self):
         """
-        Updates the README of the Github user's profile.
+        Gets the README of the Github user's profile.
 
-        Sends a PUT request to the Github API to update the README file in the user's profile repository.
-
-        Parameters:
-        -----------
-        album_response (dict): The album response object from Spotify.
-
-        Returns:
-        --------
-        Dict[str, Any]: The JSON response from the Github API.
+        Sends a GET request to the Github API to retrieve the README of the user's profile.
 
         Raises:
         -------
         requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
-        headers = {
-            'Authorization': f'bearer {os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")}',
-            'Content-Type': 'application/json'
-        }
-        data = {
-            'message': 'Update README',
-            'content': album_response['content'],
-            'sha': album_response['sha']
-        }
-        response = requests.put(url=f"{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md",
-                                auth=self.auth, data=json.dumps(data), headers=headers)
-        response.raise_for_status()
-        return response.json()
+        r = requests.get(f'{self.base_url}/repos/{self.username}/{self.repo}/readme', headers=self.headers)
+        json_data = r.json()
+        content = base64.b64decode(json_data["content"]).decode('utf-8')
+        print(content)
 
     def get_bio(self,context):
         """

@@ -12,5 +12,6 @@ def app():
 
         github = Github()
         github.update_bio(last_played_album)
+        github.get_readme()
     else:
         print("Checkup failed. Please check your environment variables.")
