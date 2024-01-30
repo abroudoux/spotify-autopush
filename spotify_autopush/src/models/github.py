@@ -88,8 +88,24 @@ class Github:
         """
         r = requests.get(f'{self.base_url}/repos/{self.username}/{self.repo}/readme', headers=self.headers)
         json_data = r.json()
-        content = base64.b64decode(json_data["content"]).decode('utf-8')
-        print(content)
+        readme_content = base64.b64decode(json_data["content"]).decode('utf-8')
+        self.__save_readme(readme_content)
+
+    def __save_readme(self, readme_content):
+        """
+        Saves the README of the Github user's profile to a file.
+
+        Parameters:
+        -----------
+        readme_content (str): The content of the README file.
+
+        Raises:
+        -------
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        """
+        filepath = os.path.join(os.getcwd(), "spotify_autopush", "PROFILE_README.md")
+        with open(filepath, "w") as f:
+            f.write(readme_content)
 
     def get_bio(self,context):
         """

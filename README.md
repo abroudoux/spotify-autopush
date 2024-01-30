@@ -1,1 +1,1 @@
-# spotify-api-autopush
+# spotify-autopush
