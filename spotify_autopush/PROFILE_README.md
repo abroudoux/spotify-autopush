@@ -14,9 +14,8 @@
 
 ## Last played album
 
-<a href=https://open.spotify.com/album/5rotTIzASSa2IDU9uQA0nQ style="color: #CCCCCC; text-decoration: none !important">
-    <p style="margin-bottom: 0; font-size: 36px; font-weight: 700;">cero - e o<p style="color: #CCCCCC;">Parannoul - After the Magic</p>
-
+<div>
+    <p>cero - e o<p>
     <br>
     <img src=https://i.scdn.co/image/ab67616d0000b27361179675298a14b172b24653 style="max-width: 120px; height: auto">
-</a>
+</div>
