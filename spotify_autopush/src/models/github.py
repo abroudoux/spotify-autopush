@@ -45,7 +45,7 @@ class Github:
         new_last_album_played = f'<p>{last_played_album}</p>'
         self.readme_content = re.sub(r'<p>.*?</p>', new_last_album_played, self.readme_content, flags=re.DOTALL)
 
-        new_last_album_played_cover_url = f'<img style="max-width: 200px;" src="{album_cover_url}"/>'
+        new_last_album_played_cover_url = f'<img style="width: 250px;" src="{album_cover_url}"/>'
         self.readme_content = re.sub(r'<img[^>]*>', new_last_album_played_cover_url, self.readme_content)
 
         self.__save_readme()
