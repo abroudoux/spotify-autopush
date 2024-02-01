@@ -1,4 +1,5 @@
 import base64
+import re
 from dotenv import load_dotenv
 from requests.auth import HTTPBasicAuth
 import requests
@@ -34,20 +35,25 @@ class Github:
         self.__save_readme()
 
     def __save_readme(self):
-        filepath = os.path.join(os.getcwd(), "spotify_autopush", "profile_readme.md")
+        filepath = os.path.join(os.getcwd(), "spotify_autopush", "README.md")
         with open(filepath, "w") as f:
             f.write(self.readme_content)
 
     def udpate_readme(self, last_played_album, album_cover_url):
         self.__get_readme()
-        new_content = f'<p>{last_played_album}</p>\n'
-        self.readme_content = self.readme_content.replace('<p>', new_content)
-        print(album_cover_url)
+
+        new_last_album_played = f'<p>{last_played_album}</p>'
+        self.readme_content = re.sub(r'<p>.*?</p>', new_last_album_played, self.readme_content, flags=re.DOTALL)
+
+        new_last_album_played_cover_url = f'<img style="max-width: 400px; border-radius: 6px" src="{album_cover_url}"/>'
+        self.readme_content = re.sub(r'<img[^>]*>', new_last_album_played_cover_url, self.readme_content)
+
         self.__save_readme()
+
         r = requests.put(
-            f'{self.base_url}/repos/{self.username}/{self.repo}/contents/profile_readme.md',
+            f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md',
             json={
-                "message": "Update README with last played album",
+                "message": "Update README",
                 "content": base64.b64encode(self.readme_content.encode()).decode(),
             },
             headers=self.headers,
