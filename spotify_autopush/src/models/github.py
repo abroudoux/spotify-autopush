@@ -1,7 +1,6 @@
 import base64
 import re
 from dotenv import load_dotenv
-from requests.auth import HTTPBasicAuth
 import requests
 import os
 

@@ -1,4 +1,3 @@
-from rich import print
 import os
 from dotenv import load_dotenv
 
