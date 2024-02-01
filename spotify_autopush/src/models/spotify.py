@@ -58,4 +58,6 @@ class Spotify:
         artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else print("The property 'name' was not found in the recently played album.")
         last_album_played_data: Dict[str, Any] = {"album_name": album_name, "artist_name": artist_name, "album_cover_url": album_cover_url, "album_url": album_url}
 
+        print(f"Last album played: {album_name} by {artist_name}")
+
         return last_album_played_data

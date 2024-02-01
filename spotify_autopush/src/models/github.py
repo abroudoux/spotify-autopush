@@ -81,7 +81,7 @@ class Github:
             },
             headers=self.headers,
         )
-        print("Status:", r.status_code)
+        print("Status:", r.status_code, r.reason)
 
     def udpate_readme(self, last_album_played_data):
         """
