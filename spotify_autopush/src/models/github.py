@@ -45,16 +45,20 @@ class Github:
         new_last_album_played = f'<p>{last_played_album}</p>'
         self.readme_content = re.sub(r'<p>.*?</p>', new_last_album_played, self.readme_content, flags=re.DOTALL)
 
-        new_last_album_played_cover_url = f'<img style="max-width: 400px; border-radius: 6px" src="{album_cover_url}"/>'
+        new_last_album_played_cover_url = f'<img style="max-width: 200px;" src="{album_cover_url}"/>'
         self.readme_content = re.sub(r'<img[^>]*>', new_last_album_played_cover_url, self.readme_content)
 
         self.__save_readme()
+
+        response = requests.get(f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md', headers=self.headers)
+        sha = response.json().get('sha', None)
 
         r = requests.put(
             f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md',
             json={
                 "message": "Update README",
                 "content": base64.b64encode(self.readme_content.encode()).decode(),
+                "sha": sha
             },
             headers=self.headers,
         )

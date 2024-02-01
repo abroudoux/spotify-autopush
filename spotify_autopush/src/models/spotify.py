@@ -36,6 +36,7 @@ class Spotify:
 
     def return_last_album_played(self):
         album_data = self.__get_last_album_played_data()
+
         artist_name = album_data['artist_name']
         album_name = album_data['album_name']
         last_album_played_cover_url = album_data['album_cover_url']

@@ -15,7 +15,7 @@
 ## Last played album
 
 <div>
-    <p>Eyedress - Mulholland Drive</p>
+    <p>Parannoul - To See the Next Part of the Dream</p>
     <br>
-    <img style="max-width: 400px; border-radius: 6px" src="https://i.scdn.co/image/ab67616d0000b27316f48ac1e989d7acc028e9cf"/>
+    <img style="max-width: 400px; border-radius: 6px" src="https://i.scdn.co/image/ab67616d0000b2732c373d645f0cb73dedde2683"/>
 </div>
