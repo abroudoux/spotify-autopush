@@ -15,7 +15,7 @@
 ## Last album played
 
 <div>
-    <p>Bleu Nuit - 222</p>
+    <p>Ruby Haunt - Heaven Sent (Between Heavens B-Sides)</p>
     <br>
-    <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b2733517a795fbbc50cb9cd8797a"/>
+    <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b273ee79eeb800809590f5523220"/>
 </div>

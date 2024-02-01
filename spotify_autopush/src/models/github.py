@@ -24,10 +24,11 @@ class Github:
     update_bio(): Update the GitHub user bio.
     __get_readme(): Get the GitHub repository README.
     __save_readme(): Save the GitHub repository README.
+    __commit_readme_github(): Commit the GitHub repository README.
     udpate_readme(): Update the GitHub repository README.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Class constructor.
 
@@ -101,6 +102,24 @@ class Github:
         with open(filepath, "w") as f:
             f.write(self.readme_content)
 
+    def __commit_readme_github(self):
+        """
+        Commit the GitHub repository README.
+        """
+        response = requests.get(f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md', headers=self.headers)
+        sha = response.json().get('sha', None)
+
+        r = requests.put(
+            f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md',
+            json={
+                "message": "Update README",
+                "content": base64.b64encode(self.readme_content.encode()).decode(),
+                "sha": sha
+            },
+            headers=self.headers,
+        )
+        print("Status:", r.status_code)
+
     def udpate_readme(self, last_played_album, album_cover_url):
         """
         Update the GitHub repository README.
@@ -120,17 +139,4 @@ class Github:
         self.readme_content = re.sub(r'<img[^>]*>', new_last_album_played_cover_url, self.readme_content)
 
         self.__save_readme()
-
-        response = requests.get(f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md', headers=self.headers)
-        sha = response.json().get('sha', None)
-
-        r = requests.put(
-            f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md',
-            json={
-                "message": "Update README",
-                "content": base64.b64encode(self.readme_content.encode()).decode(),
-                "sha": sha
-            },
-            headers=self.headers,
-        )
-        print("Status:", r.status_code)
+        self.__commit_readme_github()
