@@ -14,8 +14,7 @@ class Spotify:
 
     Methods:
     __init__(): The class constructor
-    __get_last_album_played_data(): Get the last album played data.
-    return_last_album_played(): Return the last album played.
+    get_last_album_played_data(): Get the last album played data.
     """
 
     def __init__(self):
@@ -32,7 +31,7 @@ class Spotify:
         self.spotify_client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
         self.spotify_redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI")
 
-    def __get_last_album_played_data(self) -> Dict[str, Any]:
+    def get_last_album_played_data(self) -> Dict[str, Any]:
         """
         Get the last album played data.
 
@@ -57,23 +56,6 @@ class Spotify:
         album_cover_url = album_cover_art[0]['url'] if album_cover_art and len(album_cover_art) > 0 else print("No album cover URL found.")
         album_url = recently_saved_album['external_urls']['spotify'] if 'external_urls' in recently_saved_album else print("No album URL found.")
         artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else print("The property 'name' was not found in the recently played album.")
-        album_data: Dict[str, Any] = {"album_name": album_name, "artist_name": artist_name, "album_cover_url": album_cover_url, "album_url": album_url}
+        last_album_played_data: Dict[str, Any] = {"album_name": album_name, "artist_name": artist_name, "album_cover_url": album_cover_url, "album_url": album_url}
 
-        return album_data
-
-    def return_last_album_played(self):
-        """
-        Return the last album played.
-
-        Returns:
-        str: The last album played.
-        """
-
-        album_data = self.__get_last_album_played_data()
-
-        artist_name = album_data['artist_name']
-        album_name = album_data['album_name']
-        last_album_played_cover_url = album_data['album_cover_url']
-        last_album_played = f"{artist_name} - {album_name}"
-
-        return last_album_played, last_album_played_cover_url
+        return last_album_played_data

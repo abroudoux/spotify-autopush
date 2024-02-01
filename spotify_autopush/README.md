@@ -15,7 +15,7 @@
 ## Last album played
 
 <div>
-    <p>Ruby Haunt - Heaven Sent (Between Heavens B-Sides)</p>
+    <p>Heaven Sent (Between Heavens B-Sides) - Ruby Haunt</p>
     <br>
     <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b273ee79eeb800809590f5523220"/>
 </div>
