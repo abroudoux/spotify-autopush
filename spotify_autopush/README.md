@@ -15,7 +15,7 @@
 ## Last album played
 
 <div>
-    <p>Heaven Sent (Between Heavens B-Sides) - Ruby Haunt</p>
+    <p>Ouréa - ilmäre</p>
     <br>
-    <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b273ee79eeb800809590f5523220"/>
+    <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b2737528429d438137d13cc87811"/>
 </div>

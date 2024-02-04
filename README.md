@@ -10,7 +10,25 @@ Spotify-Autopush is a program to display on your Github account your last album 
 
 ## 🎯・Setup
 
-In construction...
+### Add a personnal access token from Settings/Developer Settings:
+
+- Add `repo` authorization.
+- Add `user` authorization.
+
+<img src="./assets/github_settings.png" alt="Github settings screenshot" />
+
+### Create an application from [Spotify Developers Dashboar](https://developer.spotify.com/dashboard)
+
+- APIs used parameters: `Web API` & `Web Playback SDK`
+- Save `Client ID` and `Client Secret`
+
+If you need to configure `Redirect URLs` refer to [this page](https://community.spotify.com/t5/Spotify-for-Developers/Redirect-URI-needed/td-p/5067419)
+
+### Configure your environment variables in `.env`
+
+```bash
+cp .env.example .env
+```
 
 ## 📚・Ressources
 
@@ -49,8 +67,9 @@ GITHUB_PERSONAL_ACCESS_TOKEN=
 
 ## 🎯・Roadmap
 
-- [ ] Push the last album played on my portfolio
 - [ ] Create a CLI
+- [ ] Push the last album played on my portfolio
+- [ ] Display more informations about the album
 
 ## 📑・Licence
 
