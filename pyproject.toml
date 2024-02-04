@@ -12,6 +12,12 @@ spotify_autopush = "spotify_autopush.main:app"
 python = "^3.12"
 spotipy = "^2.19.0"
 python-dotenv = "^1.0.0"
+requests = "^2.31.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.0"
+requests-mock = "^1.11.0"
 
 [build-system]
 requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
