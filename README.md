@@ -6,7 +6,7 @@
 
 ## 💻・About
 
-Spotify-Autopush is a program to display on your Github account your last album played so you can show the world your great musical tastes (no one cares)
+Spotify-Autopush is a program to display on your Github account your last album played so you can show the world your great musical tastes (nobody cares)
 
 ## 🎯・Setup
 
