@@ -37,7 +37,7 @@ cp .env.example .env
 
 ## 🧑‍🤝‍🧑・Contributing
 
-To use Auto-Push in development, follow these steps:
+To use spotify-autopush in development, follow these steps:
 
 1. Fork the project.
 
