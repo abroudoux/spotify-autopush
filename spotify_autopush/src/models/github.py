@@ -101,6 +101,10 @@ class Github:
 
         new_last_album_played_cover_url = f'<img style="width: 250px;" src="{last_album_played_cover_url}"/>'
         self.readme_content = re.sub(r'<img[^>]*>', new_last_album_played_cover_url, self.readme_content)
-
         self.__save_readme()
         self.__push_readme_github()
+
+    def get_portfolio(self):
+        r = requests.get(f'{self.base_url}/repos/{self.username}/portfolio/readme', headers=self.headers)
+        json_data = r.json()
+        print(json_data)

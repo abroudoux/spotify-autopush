@@ -10,5 +10,6 @@ def app():
         github = Github()
         last_album_played_data = spotify.get_last_album_played_data()
         github.udpate_readme(last_album_played_data)
+        # github.get_portfolio()
     else:
         print("Checkup failed. Please check your environment variables.")
