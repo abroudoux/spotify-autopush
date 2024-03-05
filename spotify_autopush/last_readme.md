@@ -15,7 +15,7 @@
 ## Last album played
 
 <div>
-    <p>Anthology - Tommy James & The Shondells</p>
+    <p>mixed matches (extended) - Mixed Matches</p>
     <br>
-    <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b273716103d47a4f8fa9820c49ac"/>
+    <img style="width: 250px;" src="https://i.scdn.co/image/ab67616d0000b273c05594c4a347f9431cf41aac"/>
 </div>

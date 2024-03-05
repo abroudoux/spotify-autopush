@@ -33,9 +33,11 @@ class EnvLoader:
         spotify_redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI")
         github_username = os.getenv("GITHUB_USERNAME")
         github_personal_access_token = os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
-        # twitter_api_key = os.getenv("TWITTER_API_KEY")
-        # twitter_api_secret = os.getenv("TWITTER_API_SECRET")
-        # twitter_beaaer_token = os.getenv("TWITTER_BEARER_TOKEN")
+        twitter_api_key = os.getenv("TWITTER_API_KEY")
+        twitter_api_key_secret = os.getenv("TWITTER_API_KEY_SECRET")
+        twitter_bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
+        twitter_client_id = os.getenv("TWITTER_CLIENT_ID")
+        twitter_client_secret = os.getenv("TWITTER_CLIENT_SECRET")
 
         if not spotify_client_id:
             print("Please define the environment variable SPOTIPY_CLIENT_ID.")
@@ -57,16 +59,24 @@ class EnvLoader:
             print("Please define the environment variable GITHUB_PERSONAL_ACCESS_TOKEN.")
             return False
 
-        # if not twitter_api_key:
-        #     print("Please define the environment variable TWITTER_API_KEY.")
-        #     return False
+        if not twitter_api_key:
+            print("Please define the environment variable TWITTER_API_KEY.")
+            return False
 
-        # if not twitter_api_secret:
-        #     print("Please define the environment variable TWITTER_API_SECRET.")
-        #     return False
+        if not twitter_api_key_secret:
+            print("Please define the environment variable TWITTER_API_KEY_SECRET.")
+            return False
 
-        # if not twitter_beaaer_token:
-        #     print("Please define the environment variable TWITTER_BEARER_TOKEN.")
-        #     return False
+        if not twitter_bearer_token:
+            print("Please define the environment variable TWITTER_BEARER_TOKEN.")
+            return False
+
+        if not twitter_client_id:
+            print("Please define the environment variable TWITTER_CLIENT_ID.")
+            return False
+
+        if not twitter_client_secret:
+            print("Please define the environment variable TWITTER_CLIENT_SECRET.")
+            return False
 
         return True

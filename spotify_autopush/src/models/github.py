@@ -61,7 +61,7 @@ class Github:
         Save the GitHub repository README.
         """
 
-        filepath = os.path.join(os.getcwd(), "spotify_autopush", "README.md")
+        filepath = os.path.join(os.getcwd(), "spotify_autopush", "last_readme.md")
         with open(filepath, "w") as f:
             f.write(self.readme_content)
 

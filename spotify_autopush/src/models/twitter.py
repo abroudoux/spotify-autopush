@@ -1,52 +1,36 @@
-# from dotenv import load_dotenv
-# import os
-# import requests
-# from requests_oauthlib import OAuth1
+from dotenv import load_dotenv
+import os
+import requests
+import tweepy
 
-# class Twitter:
-#     def __init__(self):
-#         """
-#         Class constructor.
+class Twitter:
+    def __init__(self):
+        """
+        Class constructor.
 
-#         Attributes:
-#         api_key (str): The Twitter API key.
-#         api_secret (str): The Twitter API secret.
-#         base_url (str): The Twitter API base URL.
-#         auth (OAuth1): The Twitter API OAuth1 authentication.
-#         """
+        Attributes:
+        api_key (str): The Twitter API key.
+        api_secret (str): The Twitter API secret.
+        base_url (str): The Twitter API base URL.
+        """
 
-#         load_dotenv()
+        load_dotenv()
 
-#         self.api_key: str = os.getenv("TWITTER_API_KEY")
-#         self.api_secret: str = os.getenv("TWITTER_API_SECRET")
-#         self.base_url: str = "https://api.twitter.com/2/tweets"
-#         self.auth = OAuth1(self.api_key, self.api_secret)
+        self.api_key: str = os.getenv("TWITTER_API_KEY")
+        self.api_secret: str = os.getenv("TWITTER_API_KEY_SECRET")
+        self.bearer_token: str = os.getenv("TWITTER_BEARER_TOKEN")
+        self.client_id: str = os.getenv("TWITTER_CLIENT_ID")
+        self.client_secret: str = os.getenv("TWITTER_CLIENT_SECRET")
 
-#     def create_tweet(self, last_album_played_data):
-#         """
-#         Create a tweet.
+        client = tweepy.Client(bearer_token=self.bearer_token)
 
-#         Args:
-#         last_album_played_data (dict): The last album played data.
+        query = "covid -is:retweet"
 
-#         Returns:
-#         str: The tweet.
-#         """
-#         tweet = f"I'm currently listening to {last_album_played_data['album_name']} by {last_album_played_data['artist_name']}."
-#         return tweet
+        response = client.search_recent_tweets(query=query, max_results=10)
 
-#     def post_tweet(self, tweet):
-#         """
-#         Post a tweet.
+        return response
 
-#         Args:
-#         tweet (str): The tweet.
-#         """
+    def test(self, response):
+        print(response)
 
-#         r = requests.post(
-#             f'{self.base_url}', 
-#             json={"text": tweet},
-#             auth=self.auth,
-#         )
-#         print("Status:", r.status_code, r.reason)
 
