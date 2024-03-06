@@ -4,6 +4,7 @@ import requests
 import tweepy
 from requests_oauthlib import OAuth1Session
 import json
+import tweepy
 
 class Twitter:
     def __init__(self):
@@ -23,7 +24,7 @@ class Twitter:
         self.bearer_token: str = os.getenv("TWITTER_BEARER_TOKEN")
         self.client_id: str = os.getenv("TWITTER_CLIENT_ID")
         self.client_secret: str = os.getenv("TWITTER_CLIENT_SECRET")
-        self.acces_token: str = os.getenv("TWITTER_ACCESS_TOKEN")
+        self.access_token: str = os.getenv("TWITTER_ACCESS_TOKEN")
         self.access_token_secret: str = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
         self.consumer_key = self.api_key
         self.consumer_secret = self.api_key_secret
@@ -31,9 +32,25 @@ class Twitter:
         self.oauth = OAuth1Session(self.consumer_key, client_secret=self.consumer_secret)
 
     def test_github(self, last_album_played_data: dict):
-        tweet_text = f'{last_album_played_data['album_name']} - {last_album_played_data['artist_name']}'
-        # tweet_image = f'{last_album_played_data['album_cover_url']}'
+        tweet_text = f'Last album played : {last_album_played_data['album_name']} - {last_album_played_data['artist_name']}'
+        album_cover_url = f'{last_album_played_data['album_cover_url']}'
+        res = requests.get(album_cover_url)
+
+        path = os.path.join(os.getcwd(), "spotify_autopush", "res", "cover.png")
+
+        with open(path,'wb') as f:
+            f.write(res.content)
+
+        auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
+        auth.set_access_token(self.access_token, self.access_token_secret)
+
+        api = tweepy.API(auth)
+
+        media = api.media_upload(path)
+        media_id = media.media_id
+
         payload = {"text": tweet_text}
+        # payload = {"status": tweet_text, "media_ids": [media_id]}
 
         try:
             fetch_response = self.oauth.fetch_request_token(self.request_token_url)
@@ -44,7 +61,6 @@ class Twitter:
 
         resource_owner_key = fetch_response.get("oauth_token")
         resource_owner_secret = fetch_response.get("oauth_token_secret")
-        print("Got OAuth token: %s" % resource_owner_key)
 
         base_authorization_url = "https://api.twitter.com/oauth/authorize"
         authorization_url = self.oauth.authorization_url(base_authorization_url)
@@ -77,14 +93,12 @@ class Twitter:
         )
 
         if response.status_code != 201:
-            raise Exception(
+            raise requests.exceptions.HTTPError(
                 "Request returned an error: {} {}".format(response.status_code, response.text)
             )
 
-        print("Response code: {}".format(response.status_code))
-
-        json_response = response.json()
-        print(json.dumps(json_response, indent=4, sort_keys=True))
+        print(payload)
+        print("Twitter Status:", response.status_code, response.reason)
 
 
 

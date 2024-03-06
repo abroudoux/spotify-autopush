@@ -61,7 +61,7 @@ class Github:
         Save the GitHub repository README.
         """
 
-        filepath = os.path.join(os.getcwd(), "spotify_autopush", "last_readme.md")
+        filepath = os.path.join(os.getcwd(), "spotify_autopush", "res", "last_readme.md")
         with open(filepath, "w") as f:
             f.write(self.readme_content)
 
@@ -72,7 +72,7 @@ class Github:
         response = requests.get(f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md', headers=self.headers)
         sha = response.json().get('sha', None)
 
-        r = requests.put(
+        response = requests.put(
             f'{self.base_url}/repos/{self.username}/{self.repo}/contents/README.md',
             json={
                 "message": "Update README",
@@ -81,7 +81,7 @@ class Github:
             },
             headers=self.headers,
         )
-        print("Status:", r.status_code, r.reason)
+        print("Github Status:", response.status_code, response.reason)
 
     def udpate_readme(self, last_album_played_data):
         """
