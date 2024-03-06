@@ -38,6 +38,8 @@ class EnvLoader:
         twitter_bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
         twitter_client_id = os.getenv("TWITTER_CLIENT_ID")
         twitter_client_secret = os.getenv("TWITTER_CLIENT_SECRET")
+        twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN")
+        twitter_access_token_secret = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
         if not spotify_client_id:
             print("Please define the environment variable SPOTIPY_CLIENT_ID.")
@@ -77,6 +79,14 @@ class EnvLoader:
 
         if not twitter_client_secret:
             print("Please define the environment variable TWITTER_CLIENT_SECRET.")
+            return False
+
+        if not twitter_access_token:
+            print("Please define the environment variable TWITTER_ACCESS_TOKEN.")
+            return False
+
+        if not twitter_access_token_secret:
+            print("Please define the environment variable TWITTER_ACCESS_TOKEN_SECRET.")
             return False
 
         return True

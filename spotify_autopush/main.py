@@ -10,8 +10,9 @@ def app():
         spotify = Spotify()
         github = Github()
         twitter = Twitter()
-        twitter.test()
-        # last_album_played_data = spotify.get_last_album_played_data()
+
+        last_album_played_data = spotify.get_last_album_played_data()
+        twitter.test_github(last_album_played_data)
         # github.udpate_readme(last_album_played_data)
     else:
         print("Checkup failed. Please check your environment variables.")
