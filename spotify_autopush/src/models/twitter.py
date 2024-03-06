@@ -3,8 +3,11 @@ import os
 import requests
 from requests_oauthlib import OAuth1Session
 import webbrowser
-import json
-import tweepy
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 class Twitter:
     def __init__(self):
@@ -32,7 +35,7 @@ class Twitter:
         self.oauth = OAuth1Session(self.consumer_key, client_secret=self.consumer_secret)
 
     def __create_tweet(self, last_album_played_data: dict):
-        tweet_text = f'Last album played : {last_album_played_data['album_name']} - {last_album_played_data['artist_name']}'
+        tweet_text = f'Last album played : {last_album_played_data["album_name"]} - {last_album_played_data["artist_name"]}'
         # album_cover_url = f'{last_album_played_data['album_cover_url']}'
         # res = requests.get(album_cover_url)
 
@@ -45,24 +48,69 @@ class Twitter:
 
         return payload
 
+
+    def __authorize(self):
+        """
+        Authorize the Twitter API.
+
+        Returns:
+        str: The PIN.
+        """
+
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        driver = webdriver.Chrome(options=options)
+
+        base_authorization_url = "https://api.twitter.com/oauth/authorize"
+        authorization_url = self.oauth.authorization_url(base_authorization_url)
+        driver.get(authorization_url)
+
+        try:
+            allow_button = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "allow"))
+            )
+            allow_button.click()
+
+            pin_element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "code[aria-labelledby='code-desc']"))
+            )
+            pin = pin_element.text.strip()
+        except TimeoutException:
+            print("Timeout: Failed to find PIN element.")
+            pin = None
+        finally:
+            driver.quit()
+
+        return pin
+
     def post_tweet(self, last_album_played_data: dict):
+        """
+        Post a tweet.
+
+        Args:
+        last_album_played_data (dict): The last album played data.
+        """
 
         payload = self.__create_tweet(last_album_played_data)
 
         try:
             fetch_response = self.oauth.fetch_request_token(self.request_token_url)
         except ValueError:
-            print(
-                "There may have been an issue with the consumer_key or consumer_secret you entered."
-            )
+            print("There may have been an issue with the consumer_key or consumer_secret you entered.")
 
         resource_owner_key = fetch_response.get("oauth_token")
         resource_owner_secret = fetch_response.get("oauth_token_secret")
 
+        # pin = self.__authorize()
+
+        # if pin is None:
+        #     print("Authorization failed. Aborting tweet.")
+        #     return
+
         base_authorization_url = "https://api.twitter.com/oauth/authorize"
         authorization_url = self.oauth.authorization_url(base_authorization_url)
         webbrowser.open(authorization_url)
-        verifier = input("Paste the PIN here: ")
+        pin = input("Paste the PIN here: ")
 
         access_token_url = "https://api.twitter.com/oauth/access_token"
         oauth = OAuth1Session(
@@ -70,7 +118,7 @@ class Twitter:
             client_secret=self.consumer_secret,
             resource_owner_key=resource_owner_key,
             resource_owner_secret=resource_owner_secret,
-            verifier=verifier,
+            verifier=pin,
         )
         oauth_tokens = oauth.fetch_access_token(access_token_url)
 
@@ -96,6 +144,3 @@ class Twitter:
 
         print(payload)
         print("Twitter Status:", response.status_code, response.reason)
-
-
-
