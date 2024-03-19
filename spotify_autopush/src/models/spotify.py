@@ -39,7 +39,7 @@ class Spotify:
         Dict[str, Any]: The last album played data.
         """
 
-        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=self.spotify_client_id, client_secret=self.spotify_client_secret, redirect_uri=self.spotify_redirect_uri, scope="user-library-read"))
+        sp = spotipy.Spotify(auth_manager = SpotifyOAuth(client_id=self.spotify_client_id, client_secret=self.spotify_client_secret, redirect_uri=self.spotify_redirect_uri, scope="user-library-read"))
         results = sp.current_user_saved_albums(limit=1)
 
         if results and 'items' not in results and len(results['items']) == 0:
@@ -51,13 +51,20 @@ class Spotify:
             print("The property 'name' was not found in the recently played album.")
 
         album_name = recently_saved_album['name']
-        album_artist = recently_saved_album['artists']
+
+        album_artists_names = recently_saved_album['artists']
+        artist_names = [artist['name'] for artist in album_artists_names]
         album_cover_art = recently_saved_album['images']
         album_cover_url = album_cover_art[0]['url'] if album_cover_art and len(album_cover_art) > 0 else print("No album cover URL found.")
         album_url = recently_saved_album['external_urls']['spotify'] if 'external_urls' in recently_saved_album else print("No album URL found.")
-        artist_name = album_artist[0]['name'] if album_artist and len(album_artist) > 0 else print("The property 'name' was not found in the recently played album.")
-        last_album_played_data: Dict[str, Any] = {"album_name": album_name, "artist_name": artist_name, "album_cover_url": album_cover_url, "album_url": album_url}
 
-        print(f"Last album played: {album_name} by {artist_name}")
+        if len(artist_names) > 1:
+            album_artists = ", ".join(artist_names[:-1]) + " & " + artist_names[-1]
+        else:
+            album_artists = artist_names[0]
+
+        last_album_played_data: Dict[str, Any] = {"album_name": album_name, "artists_names": album_artists, "album_cover_url": album_cover_url, "album_url": album_url}
+
+        print(f"Last album played: {album_name} by {album_artists}")
 
         return last_album_played_data

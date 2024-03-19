@@ -93,7 +93,7 @@ class Github:
 
         self.__get_readme()
 
-        last_album_played_title = f'{last_album_played_data['album_name']} - {last_album_played_data['artist_name']}'
+        last_album_played_title = f'{last_album_played_data['album_name']} by {last_album_played_data['artists_names']}'
         last_album_played_cover_url = f'{last_album_played_data['album_cover_url']}'
 
         new_last_album_played = f'<p>{last_album_played_title}</p>'
